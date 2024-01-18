@@ -1,0 +1,113 @@
+﻿@model IEnumerable<StudentProject.Models.StudentData>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+@{
+    if (TempData["success"] != null)
+    {
+     <h3>@TempData["success"]</h3>
+
+    }
+
+    var pageCount = (int?)ViewData["PageCount"];
+    var currentPage = (int?)ViewData["Page"];
+}
+     @* hidden field *@
+    @*  <input type="hidden" id="pageCount" value="@pageCount" />
+     <input type="hidden" id="currentPage" value="@currentPage" /> *@
+
+
+     
+
+
+
+<div class="container">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h1 class="text-primary">Student Details</h1>
+        </div>
+
+
+
+        <div class="col-6 text-end">
+             <a asp-controller="StudentData" asp-action="Create" class="btn btn-warning">Create</a>
+        </div>
+    </div>
+    @* Adding Seach Box *@
+    @using (Html.BeginForm("Index", "StudentData", FormMethod.Get))
+    {
+        <p>
+
+            Search: <input type="text" name="search" value="@ViewData["Search"]" >
+            <input type="submit" value="Search" id="searchBox">
+        </p>
+    }
+
+   
+
+  <h5>Click the check box to remove column</h5>
+    <input type="checkbox" id="fname" class="toggle-checkbox" value="fname" checked  >
+    <label for="fname">First Name</label>
+
+    <input type="checkbox" id="lname" class="toggle-checkbox" value="lname" checked>
+    <label for="lname">Last Name</label>
+
+    <input type="checkbox" id="course" class="toggle-checkbox" value="course" checked>
+    <label for="course">Course</label>
+
+    <input type="checkbox" id="email" class="toggle-checkbox" value="email" checked>
+    <label for="email">Email</label>
+
+    <input type="checkbox" id="phone" class="toggle-checkbox" value="phone" checked>
+    <label for="phone">Phone</label>
+
+    <input type="checkbox" id="gender" class="toggle-checkbox" value="gender" checked>
+    <label for="gender">Gender</label>
+
+  
+
+    
+    
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th class="fname">First Name</th>
+                <th class="lname">Last Name</th>
+                <th class="course">Course</th>
+                <th class="email">Email</th>
+                <th class="phone">Phone</th>
+                <th class="gender">Gender</th>
+            </tr>
+        </thead>
+     
+           @*  <h3 id="loadingIcon" style="display: none;"> Hello </h3> *@
+      
+                
+        <tbody id="ViewContainer">            
+            @Html.Partial("_Index", Model)
+        </tbody>
+        
+    </table>
+    <button id="resetCheckboxes" class="btn btn-primary">Reset Checkboxes</button>
+
+
+    <div class="pagination">
+     
+
+        @for (var i = 1; i <= pageCount; i++)
+        {
+            <a href="#" data-page="@i" class="page-link badge rounded-pill bg-light  @(i == currentPage ? "" : "")">@i</a>
+        }
+
+    </div>
+   
+   
+
+
+</div>
+
+<script src="~/js/index.js">  </script>
+<script>
+    console.log(@currentPage);
+    console.log("hello");
+</script>

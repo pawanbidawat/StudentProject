@@ -1,0 +1,20 @@
+﻿
+
+@foreach (var obj in Model)
+{
+    <tr>
+        <td class="fname">@obj.FirstName</td>
+        <td class="lname">@obj.LastName</td>
+        <td class="course">@obj.Course</td>
+        <td class="email">@obj.Email</td>
+        <td class="phone">@obj.Phone</td>
+        <td class="gender">@obj.Gender</td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-success">Edit</a>
+            <a asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-danger">Delete</a>
+            <a asp-action="Details" asp-route-id="@obj.Id" class="btn btn-info">Detail</a>
+        </td>
+    </tr>
+}
+
+
