@@ -77,6 +77,10 @@ $(document).ready(function () {
                     for (var i = 1; i <= pageCount; i++) {
                         html += `<a href = "#" data-page='${i}' class="page-link badge rounded-pill bg-light" > ${i}</a>`
                     }
+                     if ($(".stData").html() == undefined) {
+                    $('#ViewContainer').html("No data Found")
+
+                      }
                     $(".pagination").html(html);
                     pageFun();
                     toggleState();
