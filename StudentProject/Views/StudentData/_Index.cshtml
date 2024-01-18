@@ -1,4 +1,10 @@
-﻿
+﻿@{
+    int?  pageCount = (int?)ViewData["PageCount"];
+    int? currentPage =(int?)ViewData["CurrentPage"];
+}
+<input type="hidden" id="pageCount" value="@pageCount" />
+<input type="hidden" id="currentPage" value="@currentPage"/>
+
 
 @foreach (var obj in Model)
 {

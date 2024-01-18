@@ -1,10 +1,11 @@
 $(document).ready(function () {
-     
+
     $(window).on('load', function () {
 
         resetCheckboxes();
 
     });
+    pageFun();
 
     function toggleColumn(checkboxId, columnName) {
         $(checkboxId).click(function () {
@@ -51,16 +52,16 @@ $(document).ready(function () {
     toggleColumn("#gender", "gender");
     toggleState();
 
-   
+
 
 
     $("#searchBox").click(function (e) {
         e.preventDefault();
 
         var search = $("input[name='search']").val();
-        
-       
-       
+
+
+
 
         $.ajax({
             url: "/StudentData/Index",
@@ -68,10 +69,18 @@ $(document).ready(function () {
             data: { search: search },
             success: function (data) {
 
-                setTimeout(function () {
+                
                     $('#ViewContainer').html(data);
+                    var pageCount = $("#pageCount").val();
+                    var html = "";
+                    
+                    for (var i = 1; i <= pageCount; i++) {
+                        html += `<a href = "#" data-page='${i}' class="page-link badge rounded-pill bg-light" > ${i}</a>`
+                    }
+                    $(".pagination").html(html);
+                    pageFun();
                     toggleState();
-                },500);
+              
             },
 
             error: function () {
@@ -80,10 +89,10 @@ $(document).ready(function () {
         });
 
     });
-   
-
     //Implementing ajax for pagination
 
+});
+    var pageFun = function () { 
     $(".page-link").click(function (e) {
         e.preventDefault();
 
@@ -91,24 +100,23 @@ $(document).ready(function () {
         var page = $(this).data("page");
         var search = $("input[name='search']").val();
         $("#ViewContainer").html("<span class='spinner-border text-warning loadIcon' role='status' style='margin-left:75vh; border-width:5px; width:80px; height:80px;' ></span > ");
-             
+
         $.ajax({
             url: "/StudentData/Index",
             method: "GET",
             data: { search: search, page: page },
-            success: function (data) { 
+            success: function (data) {
                 setTimeout(function () {
-                   
+
                     $("#ViewContainer").html(data);
                     toggleState();
                 }, 500);
             },
             error: function () {
                 console.error("Failed to load the partial view.");
-              
+
             }
         });
     });
 
-
-});
+    }

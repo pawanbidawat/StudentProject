@@ -33,14 +33,13 @@
         </div>
     </div>
     @* Adding Seach Box *@
-    @using (Html.BeginForm("Index", "StudentData", FormMethod.Get))
-    {
+
         <p>
 
             Search: <input type="text" name="search" value="@ViewData["Search"]" >
-            <input type="submit" value="Search" id="searchBox">
+            <input type="button" value="Search" id="searchBox">
         </p>
-    }
+    
 
    
 
