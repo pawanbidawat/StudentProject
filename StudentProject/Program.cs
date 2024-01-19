@@ -10,6 +10,7 @@ builder.Services.AddControllersWithViews();
 //not mandatory
 builder.Services.AddSingleton<IWorld , World>();
 
+
 builder.Services.AddDbContext<StudentDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 

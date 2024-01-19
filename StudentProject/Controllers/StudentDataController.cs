@@ -9,12 +9,12 @@ namespace StudentProject.Controllers
     public class StudentDataController : Controller
     {
         private readonly StudentDbContext _db;
-        private readonly IWorld _repo = new World();
+        private readonly IWorld _repo;
 
-        public StudentDataController(StudentDbContext db)
+        public StudentDataController(StudentDbContext db, IWorld repo)
         {
             _db = db;
-            //IWorld _repo = new World(); 
+            _repo = repo;
             Variables.hello = _repo.print();
 
         }
