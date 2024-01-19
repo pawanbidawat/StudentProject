@@ -1,6 +1,7 @@
-﻿@{
-    int?  pageCount = (int?)ViewData["PageCount"];
-    int? currentPage =(int?)ViewData["CurrentPage"];
+﻿
+@{
+    int? pageCount = Variables.PageCount;
+    int? currentPage =Variables.Page;
 }
 <input type="hidden" id="pageCount" value="@pageCount" />
 <input type="hidden" id="currentPage" value="@currentPage"/>

@@ -1,12 +1,21 @@
 using Microsoft.EntityFrameworkCore;
 using StudentProject.Data;
+using StudentProject.Repo;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+//not mandatory
+builder.Services.AddSingleton<IWorld , World>();
+
 builder.Services.AddDbContext<StudentDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+
+
 
 var app = builder.Build();
 

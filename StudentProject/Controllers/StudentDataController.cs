@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
 using StudentProject.Data;
 using StudentProject.Models;
-
+using StudentProject.Repo;
 
 
 namespace StudentProject.Controllers
@@ -10,9 +9,14 @@ namespace StudentProject.Controllers
     public class StudentDataController : Controller
     {
         private readonly StudentDbContext _db;
+        private readonly IWorld _repo = new World();
+
         public StudentDataController(StudentDbContext db)
         {
             _db = db;
+            //IWorld _repo = new World(); 
+            Variables.hello = _repo.print();
+
         }
 
 
@@ -39,9 +43,9 @@ namespace StudentProject.Controllers
             int currentPage = page ?? 1;
             var paged = query.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
          
-            ViewData["Search"] = search;
-            ViewData["Page"] = currentPage;
-            ViewData["PageCount"] = pageCount;
+            Variables.Search = search;
+            Variables.Page = currentPage;
+            Variables.PageCount = pageCount;
 
 
             if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")

@@ -4,12 +4,12 @@
 @{
     if (TempData["success"] != null)
     {
-     <h3>@TempData["success"]</h3>
+        <h3>@TempData["success"]</h3>
 
     }
 
-    var pageCount = (int?)ViewData["PageCount"];
-    var currentPage = (int?)ViewData["Page"];
+    var pageCount = Variables.PageCount;
+    var currentPage = Variables.Page;
 }
      @* hidden field *@
     @*  <input type="hidden" id="pageCount" value="@pageCount" />
@@ -18,7 +18,7 @@
 
      
 
-
+     <h1>@Variables.hello</h1>
 
 <div class="container">
     <div class="row pt-4">
