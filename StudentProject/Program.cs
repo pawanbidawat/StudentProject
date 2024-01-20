@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 //not mandatory
 builder.Services.AddSingleton<IWorld , World>();
+builder.Services.AddSingleton<IVariables, Variables>();
 
 
 builder.Services.AddDbContext<StudentDbContext>(options =>

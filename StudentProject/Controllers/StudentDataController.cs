@@ -9,43 +9,44 @@ namespace StudentProject.Controllers
     public class StudentDataController : Controller
     {
         private readonly StudentDbContext _db;
+
+        //[FromServices]
+        //public IWorld _repo { get; set; }
+
         private readonly IWorld _repo;
 
-        public StudentDataController(StudentDbContext db, IWorld repo)
+        //[FromServices]
+        public IVariables _var;
+
+        public StudentDataController(StudentDbContext db , IWorld repo ,IVariables var )
         {
             _db = db;
             _repo = repo;
-            Variables.hello = _repo.print();
+            _var = var;
+
+
 
         }
 
 
         public IActionResult Index(string search,  int? page )
         {
-            var query = _db.Students.AsQueryable();
+
+            var query =  _var.SearchResult(search , _db.Students.AsQueryable());
+            _var.hello = _repo.print();
 
             int pageSize = 2;
 
-            if (!string.IsNullOrEmpty(search))
-            {
-                query = query.Where(s => s.FirstName.Contains(search)
-                                          || s.LastName.Contains(search)
-                                          || s.Course.Contains(search)
-                                          || s.Email.Contains(search)
-                                          || s.Phone.Contains(search)
-                                          || s.Gender.StartsWith(search));
-
-
-            }        
+          
 
             //paging
             int pageCount = (int)Math.Ceiling(query.Count() / (double)pageSize);
             int currentPage = page ?? 1;
             var paged = query.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
          
-            Variables.Search = search;
-            Variables.Page = currentPage;
-            Variables.PageCount = pageCount;
+            _var.Search = search;
+            _var.Page = currentPage;
+            _var.PageCount = pageCount;
 
 
             if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")

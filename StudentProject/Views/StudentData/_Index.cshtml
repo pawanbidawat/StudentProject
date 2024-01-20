@@ -1,7 +1,7 @@
-﻿
+﻿@inject StudentProject.Repo.IVariables _var;
 @{
-    int? pageCount = Variables.PageCount;
-    int? currentPage =Variables.Page;
+    int? pageCount = _var.PageCount;
+    int? currentPage =_var.Page;
 }
 <input type="hidden" id="pageCount" value="@pageCount" />
 <input type="hidden" id="currentPage" value="@currentPage"/>
