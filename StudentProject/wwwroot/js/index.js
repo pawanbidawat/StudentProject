@@ -15,19 +15,7 @@ $(document).ready(function () {
         });
     }
 
-    function toggleState() {
-        $(".toggle-checkbox").each(function () {
-            var columnName = $(this).val();
-            var isChecked = localStorage.getItem(columnName) === 'true';
-
-            $(this).prop('checked', isChecked);
-            if (isChecked) {
-                $("." + columnName).show(); // Show the column
-            } else {
-                $("." + columnName).hide(); // Hide the column
-            }
-        });
-    }
+  
 
     // Function to reset checkboxes to their initial state
     function resetCheckboxes() {
@@ -60,31 +48,28 @@ $(document).ready(function () {
 
         var search = $("input[name='search']").val();
 
-
-
-
         $.ajax({
             url: "/StudentData/Index",
             method: "Get",
             data: { search: search },
             success: function (data) {
 
-                
-                    $('#ViewContainer').html(data);
-                    var pageCount = $("#pageCount").val();
-                    var html = "";
-                    
-                    for (var i = 1; i <= pageCount; i++) {
-                        html += `<a href = "#" data-page='${i}' class="page-link badge rounded-pill bg-light" > ${i}</a>`
-                    }
-                     if ($(".stData").html() == undefined) {
+
+                $('#ViewContainer').html(data);
+                var pageCount = $("#pageCount").val();
+                var html = "";
+
+                for (var i = 1; i <= pageCount; i++) {
+                    html += `<a href = "#" data-page='${i}' class="page-link badge rounded-pill bg-light" > ${i}</a>`
+                }
+                if ($(".stData").html() == undefined) {
                     $('#ViewContainer').html("No data Found")
 
-                      }
-                    $(".pagination").html(html);
-                    pageFun();
-                    toggleState();
-              
+                }
+                $(".pagination").html(html);
+                pageFun();
+                toggleState();
+
             },
 
             error: function () {
@@ -96,7 +81,7 @@ $(document).ready(function () {
     //Implementing ajax for pagination
 
 });
-    var pageFun = function () { 
+var pageFun = function () {
     $(".page-link").click(function (e) {
         e.preventDefault();
 
@@ -123,4 +108,17 @@ $(document).ready(function () {
         });
     });
 
-    }
+}
+function toggleState() {
+    $(".toggle-checkbox").each(function () {
+        var columnName = $(this).val();
+        var isChecked = localStorage.getItem(columnName) === 'true';
+
+        $(this).prop('checked', isChecked);
+        if (isChecked) {
+            $("." + columnName).show(); // Show the column
+        } else {
+            $("." + columnName).hide(); // Hide the column
+        }
+    });
+}
