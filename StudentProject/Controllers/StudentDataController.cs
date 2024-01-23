@@ -107,8 +107,10 @@ namespace StudentProject.Controllers
             return View();
         }
 
-        public IActionResult Delete(int? id)
+        public IActionResult Delete(int? id )
         {
+           
+          
             if (id == 0 || id == null)
             {
                 return NotFound();
@@ -119,11 +121,12 @@ namespace StudentProject.Controllers
             {
                 return NotFound();
             }
+           
             return View(student);
         }
 
         [HttpPost, ActionName("Delete")]
-        public IActionResult DeletePost(int? id)
+        public IActionResult DeletePost(int? id, string password)
         {
             StudentData? obj = _db.Students.Find(id);
 
@@ -131,7 +134,14 @@ namespace StudentProject.Controllers
             {
                 return NotFound();
             }
+            if (password != "poco")
+            {
+                // Password is incorrect, handle accordingly
+                ModelState.AddModelError("Password", "Incorrect password");
+                return View(obj); // Return to the delete confirmation view with the error message
+            }
 
+            // Password is correct, proceed with deletion
             _db.Remove(obj);
             _db.SaveChanges();
             TempData["success"] = "Data deleted successfully";
