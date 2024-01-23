@@ -134,7 +134,7 @@ namespace StudentProject.Controllers
             {
                 return NotFound();
             }
-            if (password != "poco")
+            if (password != _var.Password)
             {
                 // Password is incorrect, handle accordingly
                 ModelState.AddModelError("Password", "Incorrect password");

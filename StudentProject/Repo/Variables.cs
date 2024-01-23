@@ -1,4 +1,5 @@
-﻿using StudentProject.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using StudentProject.Models;
 
 
 namespace StudentProject.Repo
@@ -24,6 +25,7 @@ namespace StudentProject.Repo
          public string Search { get; set; }
         public int Page { get; set; }
         public int PageCount { get; set; }
+        public string Password { get; set; } = "poco";
 
         public string hello { get; set; }
     }
