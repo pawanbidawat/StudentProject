@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using StudentProject.Data;
 using StudentProject.Models;
 using StudentProject.Repo;
+using System.Diagnostics;
 
 
 namespace StudentProject.Controllers
@@ -9,6 +11,7 @@ namespace StudentProject.Controllers
     public class StudentDataController : Controller
     {
         private readonly StudentDbContext _db;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         //[FromServices]
         //public IWorld _repo { get; set; }
@@ -18,11 +21,12 @@ namespace StudentProject.Controllers
         //[FromServices]
         public IVariables _var;
 
-        public StudentDataController(StudentDbContext db , IWorld repo ,IVariables var )
+        public StudentDataController(StudentDbContext db, IWebHostEnvironment webHostEnvironment, IWorld repo ,IVariables var )
         {
             _db = db;
             _repo = repo;
             _var = var;
+            _webHostEnvironment = webHostEnvironment;
 
         }
 
@@ -67,8 +71,24 @@ namespace StudentProject.Controllers
         [HttpPost]
         public IActionResult Create(StudentData obj)
         {
+           
             if (ModelState.IsValid)
             {
+#
+                if (obj.Image != null && obj.Image.Length > 0)
+                {
+                    var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + obj.Image.FileName;
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        obj.Image.CopyTo(fileStream);
+                    }
+
+                    // Save the file path to the database if needed
+                   
+                }
                 _db.Students.Add(obj);
                 _db.SaveChanges();
                 TempData["success"] = "New data has been created";

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StudentProject.Models
 {
@@ -30,6 +32,14 @@ namespace StudentProject.Models
         [Required (ErrorMessage = "can't leave empty")]
         [RegularExpression("pass" , ErrorMessage ="Enter a valid password")]
         public string? Password { get; set; }
+
+
+        //Adding image property
+        [NotMapped]
+        [Display(Name = "Image")]
+        [DataType(DataType.Upload)]
+        [Required(ErrorMessage = "Please Choose an Image")]
+        public IFormFile ? Image { get; set; }
 
     }
 }

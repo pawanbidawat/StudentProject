@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using StudentProject.Data;
 using StudentProject.Repo;
 
@@ -10,6 +11,7 @@ builder.Services.AddControllersWithViews();
 //not mandatory
 builder.Services.AddSingleton<IWorld , World>();
 builder.Services.AddSingleton<IVariables, Variables>();
+builder.Services.AddDirectoryBrowser();
 
 
 
@@ -32,6 +34,13 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseDirectoryBrowser(new DirectoryBrowserOptions
+{
+    FileProvider = new PhysicalFileProvider(
+           Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images")),
+    RequestPath = "/images"
+});
+
 
 app.UseRouting();
 
