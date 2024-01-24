@@ -10,6 +10,6 @@ namespace StudentProject.Repo
         public int PageCount { get; set; }
 
         public string Password { get; set; }
-    public string hello { get; set; }
+        public string hello { get; set; }
     }
 }

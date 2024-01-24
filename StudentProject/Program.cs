@@ -12,6 +12,7 @@ builder.Services.AddSingleton<IWorld , World>();
 builder.Services.AddSingleton<IVariables, Variables>();
 
 
+
 builder.Services.AddDbContext<StudentDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
