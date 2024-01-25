@@ -1,10 +1,10 @@
 ﻿@inject StudentProject.Repo.IVariables _var;
 @{
     int? pageCount = _var.PageCount;
-    int? currentPage =_var.Page;
+    int? currentPage = _var.Page;
 }
 <input type="hidden" id="pageCount" value="@pageCount" />
-<input type="hidden" id="currentPage" value="@currentPage"/>
+<input type="hidden" id="currentPage" value="@currentPage" />
 
 
 @foreach (var obj in Model)
@@ -18,7 +18,7 @@
         <td class="gender">@obj.Gender</td>
         <td>
             <a asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-success">Edit</a>
-            <a asp-action="Delete" asp-route-id="@obj.Id"  class="btn btn-danger">Delete</a>
+            <a asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-danger">Delete</a>
             <a asp-action="Details" asp-route-id="@obj.Id " class="btn btn-info">Detail</a>
         </td>
     </tr>

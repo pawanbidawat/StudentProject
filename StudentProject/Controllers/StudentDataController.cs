@@ -16,36 +16,33 @@ namespace StudentProject.Controllers
         //[FromServices]
         //public IWorld _repo { get; set; }
 
-        private readonly IWorld _repo;
+
 
         //[FromServices]
         public IVariables _var;
 
-        public StudentDataController(StudentDbContext db, IWebHostEnvironment webHostEnvironment, IWorld repo ,IVariables var )
+        public StudentDataController(StudentDbContext db, IWebHostEnvironment webHostEnvironment, IVariables var)
         {
             _db = db;
-            _repo = repo;
             _var = var;
             _webHostEnvironment = webHostEnvironment;
 
         }
 
 
-        public IActionResult Index(string search,  int? page )
+        public IActionResult Index(string search, int? page)
         {
 
-            var query =  _var.SearchResult(search , _db.Students.AsQueryable());
-            _var.hello = _repo.print();
+            var query = _var.SearchResult(search, _db.Students.AsQueryable());
+            int pageSize = 3;
 
-            int pageSize = 2;
 
-          
 
             //paging
             int pageCount = (int)Math.Ceiling(query.Count() / (double)pageSize);
             int currentPage = page ?? 1;
             var paged = query.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
-         
+
             _var.Search = search;
             _var.Page = currentPage;
             _var.PageCount = pageCount;
@@ -71,24 +68,12 @@ namespace StudentProject.Controllers
         [HttpPost]
         public IActionResult Create(StudentData obj)
         {
-           
+
             if (ModelState.IsValid)
             {
-#
-                if (obj.Image != null && obj.Image.Length > 0)
-                {
-                    var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
-                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + obj.Image.FileName;
-                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                StoreImage(obj);
 
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        obj.Image.CopyTo(fileStream);
-                    }
 
-                    // Save the file path to the database if needed
-                   
-                }
                 _db.Students.Add(obj);
                 _db.SaveChanges();
                 TempData["success"] = "New data has been created";
@@ -97,38 +82,35 @@ namespace StudentProject.Controllers
             return View();
         }
 
+        public void StoreImage(StudentData obj)
+        {
+            if (obj.Image != null && obj.Image.Length > 0)
+            {
+                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                var FileName = obj.FirstName.ToString() + "_" + obj.Email.ToString() + "_" + obj.Image.FileName;
+                var filePath = Path.Combine(uploadsFolder, FileName);
+
+                if (Directory.GetFiles(uploadsFolder, Path.GetFileNameWithoutExtension(FileName) + "*").Any())
+                {
+                    var uni_Image = $"{Path.GetFileNameWithoutExtension(FileName)}_{DateTime.Now.ToString("yyyyMMddHHmm")}_{Path.GetExtension(FileName)}";
+                    filePath = Path.Combine(uploadsFolder, uni_Image);
+                }
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    obj.Image.CopyTo(fileStream);
+                }
+
+
+            }
+
+        }
+
+
+
 
         public IActionResult Edit(int? id)
         {
-            if(id == 0 || id==null) {
-               return NotFound();
-            }
-
-            StudentData? student = _db.Students.Find(id);
-            if(student == null)
-            {
-               return NotFound();
-            }
-            return View(student);
-        }
-
-        [HttpPost]
-        public IActionResult Edit(StudentData obj)
-        {
-            if (ModelState.IsValid)
-            {
-                _db.Students.Update(obj);
-                _db.SaveChanges();
-                TempData["success"] = "Data is updated successfully";
-                return RedirectToAction("Index");
-            }
-            return View();
-        }
-
-        public IActionResult Delete(int? id )
-        {
-           
-          
             if (id == 0 || id == null)
             {
                 return NotFound();
@@ -139,7 +121,38 @@ namespace StudentProject.Controllers
             {
                 return NotFound();
             }
-           
+            return View(student);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(StudentData obj)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Students.Update(obj);
+                StoreImage(obj);
+                _db.SaveChanges();
+                TempData["success"] = "Data is updated successfully";
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
+        public IActionResult Delete(int? id)
+        {
+
+
+            if (id == 0 || id == null)
+            {
+                return NotFound();
+            }
+
+            StudentData? student = _db.Students.Find(id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+
             return View(student);
         }
 
@@ -148,7 +161,7 @@ namespace StudentProject.Controllers
         {
             StudentData? obj = _db.Students.Find(id);
 
-            if(obj == null)
+            if (obj == null)
             {
                 return NotFound();
             }
@@ -165,7 +178,7 @@ namespace StudentProject.Controllers
             TempData["success"] = "Data deleted successfully";
             return RedirectToAction("Index");
 
-            
+
         }
 
         public IActionResult Details(int? id)
@@ -184,9 +197,24 @@ namespace StudentProject.Controllers
         }
 
 
-        //Adding Searching Index Action
+        public IActionResult Gallery(StudentData obj)
+        {
+            var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+            var filePath = Directory.GetFiles(uploadsFolder);
 
-      
+            List<string> imagePath = new List<string>();
+
+            foreach (var image in filePath)
+            {
+
+                imagePath.Add(Path.GetFileName(image));
+
+
+            }
+            return View(imagePath);
+        }
+
+
 
 
     }

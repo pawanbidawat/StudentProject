@@ -12,14 +12,14 @@
     var pageCount = _var.PageCount;
     var currentPage = _var.Page;
 }
-     @* hidden field *@
-    @*  <input type="hidden" id="pageCount" value="@pageCount" />
+@* hidden field *@
+@*  <input type="hidden" id="pageCount" value="@pageCount" />
      <input type="hidden" id="currentPage" value="@currentPage" /> *@
 
 
-     
 
-     <h1>@_var.hello</h1>
+
+
 
 <div class="container">
     <div class="row pt-4">
@@ -27,27 +27,27 @@
             <h1 class="text-primary">Student Details</h1>
         </div>
 
-       
+
 
 
 
         <div class="col-6 text-end">
-             <a asp-controller="StudentData" asp-action="Create" class="btn btn-warning">Create</a>
+            <a asp-controller="StudentData" asp-action="Create" class="btn btn-warning">Create</a>
         </div>
     </div>
     @* Adding Seach Box *@
 
-        <p>
+    <p>
 
-            Search: <input type="text" name="search" value="@_var.Search" >
-            <input type="button" value="Search" id="searchBox">
-        </p>
-    
+        Search: <input type="text" name="search" value="@_var.Search">
+        <input type="button" value="Search" id="searchBox">
+    </p>
 
-   
 
-  <h5>Click the check box to remove column</h5>
-    <input type="checkbox" id="fname" class="toggle-checkbox" value="fname" checked  >
+
+
+    <h5>Click the check box to remove column</h5>
+    <input type="checkbox" id="fname" class="toggle-checkbox" value="fname" checked>
     <label for="fname">First Name</label>
 
     <input type="checkbox" id="lname" class="toggle-checkbox" value="lname" checked>
@@ -65,10 +65,10 @@
     <input type="checkbox" id="gender" class="toggle-checkbox" value="gender" checked>
     <label for="gender">Gender</label>
 
-  
 
-    
-    
+
+
+
 
     <table class="table table-bordered table-striped">
         <thead>
@@ -81,20 +81,20 @@
                 <th class="gender">Gender</th>
             </tr>
         </thead>
-     
-           @*  <h3 id="loadingIcon" style="display: none;"> Hello </h3> *@
-      
-                
-        <tbody id="ViewContainer">            
+
+        @*  <h3 id="loadingIcon" style="display: none;"> Hello </h3> *@
+
+
+        <tbody id="ViewContainer">
             @Html.Partial("_Index", Model)
         </tbody>
-        
+
     </table>
     <button id="resetCheckboxes" class="btn btn-primary">Reset Checkboxes</button>
 
 
     <div class="pagination">
-     
+
 
         @for (var i = 1; i <= pageCount; i++)
         {
@@ -102,8 +102,8 @@
         }
 
     </div>
-   
-   
+
+
 
 
 </div>

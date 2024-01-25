@@ -1,0 +1,37 @@
+﻿@model List<string>
+
+
+<head>
+    <title>The basic building blocks of HTML</title>
+    <style>
+
+        .flex-container {
+            display: flex;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .Images {
+            margin: 30px;
+        }
+
+            .Images img {
+                width: 200px;
+            }
+    </style>
+</head>
+
+<h2>The building blocks</h2>
+
+<h2>Image Gallery</h2>
+
+<div class="flex-container" style="display: flex; flex-wrap: wrap;">
+    @foreach (var imageName in Model)
+    {
+        <div class="Images">
+
+            <img src="~/images/@imageName" alt="Gallery Image" />
+            <p>Uploaded by @imageName.Split("_")[0]</p>
+        </div>
+    }
+</div>

@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 //not mandatory
-builder.Services.AddSingleton<IWorld , World>();
+
 builder.Services.AddSingleton<IVariables, Variables>();
 builder.Services.AddDirectoryBrowser();
 

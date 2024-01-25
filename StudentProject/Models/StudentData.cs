@@ -35,9 +35,7 @@ namespace StudentProject.Models
 
 
         //Adding image property
-        [NotMapped]
-        [Display(Name = "Image")]
-        [DataType(DataType.Upload)]
+        [NotMapped]       
         [Required(ErrorMessage = "Please Choose an Image")]
         public IFormFile ? Image { get; set; }
 
